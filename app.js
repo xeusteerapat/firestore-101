@@ -30,11 +30,29 @@ function renderCafe(doc) {
 }
 
 // Get data from firebase
+// db.collection('cafes')
+// .where('city', '==', 'Marioland')
+// .orderBy('name')
+// .get()
+// .then(snapshot => {
+//   snapshot.docs.forEach(doc => {
+//     renderCafe(doc);
+//   });
+// });
+
+// DB Snapshot (realtime listener, when something has changed)
+// We're going to fire this function
 db.collection('cafes')
-  .get()
-  .then(snapshot => {
-    snapshot.docs.forEach(doc => {
-      renderCafe(doc);
+  .orderBy('city')
+  .onSnapshot(snapshot => {
+    let changed = snapshot.docChanges();
+    changed.forEach(change => {
+      if (change.type == 'added') {
+        renderCafe(change.doc);
+      } else if (change.type == 'removed') {
+        let li = cafeList.querySelector('[data-id=' + change.doc.id + ']');
+        cafeList.removeChild(li);
+      }
     });
   });
 
