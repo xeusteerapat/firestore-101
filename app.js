@@ -6,15 +6,27 @@ function renderCafe(doc) {
   let listCafe = document.createElement('li');
   let name = document.createElement('span');
   let city = document.createElement('span');
+  let deleteEle = document.createElement('div');
 
   listCafe.setAttribute('data-id', doc.id);
   name.textContent = doc.data().name;
   city.textContent = doc.data().city;
+  deleteEle.textContent = 'X';
 
   listCafe.appendChild(name);
   listCafe.appendChild(city);
+  listCafe.appendChild(deleteEle);
 
   cafeList.appendChild(listCafe);
+
+  // Delete data
+  deleteEle.addEventListener('click', e => {
+    e.stopPropagation();
+    let id = e.target.parentElement.getAttribute('data-id');
+
+    // find data and delete
+    db.collection('cafes').doc(id).delete();
+  });
 }
 
 // Get data from firebase
