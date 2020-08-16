@@ -56,6 +56,14 @@ db.collection('cafes')
     });
   });
 
+// Update method (Coming soon)
+// db.collection('cafes')
+//   .doc('collectionId')
+//   .update({
+//   name: 'updated name',
+//   city: 'updated city'
+// })
+
 // Saving data to firestore
 form.addEventListener('submit', e => {
   e.preventDefault();
